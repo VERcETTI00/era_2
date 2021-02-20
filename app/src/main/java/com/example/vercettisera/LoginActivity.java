@@ -1,5 +1,6 @@
 package com.example.vercettisera;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -12,18 +13,23 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+
 import static android.widget.Toast.makeText;
 
 public class LoginActivity extends AppCompatActivity {
 
     EditText emailTextInput;
     EditText passwordTextInput;
-    User currentUser;
+    FirebaseAuth auth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        auth = FirebaseAuth.getInstance();
         emailTextInput = findViewById(R.id.email);
         passwordTextInput = findViewById(R.id.password);
 
@@ -49,24 +55,26 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
     public void loginClick(String email, String pass){
-        if (email.equals(currentUser.email) && pass.equals(currentUser.password)) {
-            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-            startActivity(intent);
-            makeText(getApplicationContext(),"Authenticated Successfully",Toast.LENGTH_SHORT).show();
-            finish();
-        }
-        else {
-            makeText(getApplicationContext(),"Wrong Credentials",Toast.LENGTH_SHORT).show();
-        }
+        auth.signInWithEmailAndPassword(email,pass).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+            @Override
+            public void onSuccess(AuthResult authResult) {
+                Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                startActivity(intent);
+                makeText(getApplicationContext(),"Authenticated Successfully",Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(LoginActivity.this,"Authentication Failed",Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        DetailsProvider detailsProvider = new DetailsProvider();
-        currentUser = detailsProvider.getDetails(this);
-        if(currentUser.email.equals("0")){
-            startActivity(new Intent(this,RegisterActivity.class));
-        }
+        if(!(auth.getCurrentUser()==null))
+            startActivity(new Intent(this,HomeActivity.class));
     }
 }

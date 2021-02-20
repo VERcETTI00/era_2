@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "26156175894",
+    "project_id": "era-2-453d5",
+    "storage_bucket": "era-2-453d5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:26156175894:android:01ae2377471efc58a41b37",
+        "android_client_info": {
+          "package_name": "com.example.vercettisera"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "26156175894-50lg0o493kncrosjtk742c9uq38f2qg5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB8eCy2arZBQrP_7ZHI8Kcd3u9kEx7gcWM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "26156175894-50lg0o493kncrosjtk742c9uq38f2qg5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
