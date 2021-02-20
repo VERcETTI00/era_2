@@ -75,13 +75,10 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     public void saveUser(User user,String uid){
-
-
         Map<String,Object> customUser = new HashMap<>();
         customUser.put("name",user.name);
         customUser.put("phone",user.phone);
         customUser.put("email",user.email);
-
         db.collection("users").document(uid).set(customUser).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
@@ -92,7 +89,6 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
     }
-
     public void loginClick(String username, String email, String phoneNumber, String pass){
         if (!username.isEmpty() && !email.isEmpty() && !phoneNumber.isEmpty() && !pass.isEmpty()) {
             User user = new User(email,phoneNumber,username);

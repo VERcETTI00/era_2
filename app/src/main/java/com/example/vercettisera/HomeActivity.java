@@ -24,7 +24,6 @@ public class HomeActivity extends AppCompatActivity {
     TextView name;
     TextView email;
     TextView phone;
-    User user;
     FirebaseAuth auth;
     String uid;
     @Override

@@ -16,7 +16,6 @@
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER"/>
                 <action android:name="android.intent.action.MAIN"/>
-                <data android:mimeType="text/plain"/>
             </intent-filter>
         </activity>
 
