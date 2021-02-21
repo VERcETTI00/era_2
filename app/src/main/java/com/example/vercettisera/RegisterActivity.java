@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -31,6 +32,9 @@ public class RegisterActivity extends AppCompatActivity {
     EditText resPass;
     FirebaseAuth auth;
     FirebaseFirestore db;
+    ImageButton nextButton;
+    ProgressBar progBar;
+    Button loginButton;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,8 +46,10 @@ public class RegisterActivity extends AppCompatActivity {
         regEmail = findViewById(R.id.regEmail);
         phoneNumber = findViewById(R.id.phoneNumber);
         resPass = findViewById(R.id.regPassword);
+        progBar = findViewById(R.id.reg_progress);
+        loginButton = findViewById(R.id.login_button);
+        progBar.setVisibility(View.GONE);
 
-        Button loginButton = findViewById(R.id.login_button);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -51,7 +57,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
-        ImageButton nextButton = findViewById(R.id.nextButton);
+        nextButton = findViewById(R.id.nextButton);
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -59,7 +65,10 @@ public class RegisterActivity extends AppCompatActivity {
                 String email = regEmail.getText().toString();
                 String phNum = phoneNumber.getText().toString();
                 String pass = resPass.getText().toString();
-                loginClick(user,email,phNum,pass);
+                if(!(email.isEmpty()&&pass.isEmpty()))
+                    loginClick(user,email,phNum,pass);
+                else
+                    Toast.makeText(RegisterActivity.this,"Fields can't be Empty",Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -90,11 +99,15 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
     public void loginClick(String username, String email, String phoneNumber, String pass){
+        nextButton.setVisibility(View.GONE);
+        progBar.setVisibility(View.VISIBLE);
         if (!username.isEmpty() && !email.isEmpty() && !phoneNumber.isEmpty() && !pass.isEmpty()) {
             User user = new User(email,phoneNumber,username);
             createUser(email,pass,user);
         }
         else{
+            nextButton.setVisibility(View.VISIBLE);
+            progBar.setVisibility(View.GONE);
             Toast makeText;
             makeText(getApplicationContext(),"Fill all the details",Toast.LENGTH_SHORT).show();
         }

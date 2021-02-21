@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -26,17 +27,30 @@ public class HomeActivity extends AppCompatActivity {
     TextView phone;
     FirebaseAuth auth;
     String uid;
+    Button signOut;
+    ProgressBar homeProgress;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        homeProgress = findViewById(R.id.home_progress);
+        homeProgress.setVisibility(View.VISIBLE);
+
         auth = FirebaseAuth.getInstance();
         uid = auth.getUid();
         name = findViewById(R.id.username_home);
         email = findViewById(R.id.email_home);
         phone = findViewById(R.id.phone_home);
-        Button signOut = findViewById(R.id.signOut);
+        signOut = findViewById(R.id.signOut);
+
         getUser();
+
+        name.setVisibility(View.INVISIBLE);
+        email.setVisibility(View.INVISIBLE);
+        phone.setVisibility(View.INVISIBLE);
+
         signOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,7 +72,13 @@ public class HomeActivity extends AppCompatActivity {
                 name.setText(data.get("name").toString());
                 email.setText(data.get("email").toString());
                 phone.setText(data.get("phone").toString());
+
+                name.setVisibility(View.VISIBLE);
+                email.setVisibility(View.VISIBLE);
+                phone.setVisibility(View.VISIBLE);
+                homeProgress.setVisibility(View.GONE);
             }
+
         });
     }
 }
